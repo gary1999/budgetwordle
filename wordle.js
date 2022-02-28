@@ -10,7 +10,6 @@ let rightWords = [
     "tests",
 ];
 
-setUp();
 
 const guessButton = document.getElementById("submitGuessButton");
 guessButton.addEventListener('click', guess);
@@ -20,9 +19,11 @@ playerGuessValue = 0;
 
 function guess(){
 
-    playerWordGuess = (document.getElementById('userGuess').value);
+    playerWordGuess = (document.getElementById('userGuess').value).toUpperCase();
 
     let currentWord = "tooth";
+
+    displayGuess(playerWordGuess);
 
     while (playerGuessValue != 6){
 
@@ -42,11 +43,13 @@ function guess(){
 
 
 
-function setUp(){
+function displayGuess(playerWordGuess){
     // let playerGuessValue = 0;
     // let randomWordSelector = getRandomInt(0, rightWords.length);
 
     // let currentWord = chooseWord(randomWordSelector);
+
+    document.getElementById("guessDisplay").innerHTML = "";
 
     for (let i=1;i < 6; i++){
         const letterDiv = document.createElement("div");
@@ -65,7 +68,7 @@ function setUp(){
 
         // letterDiv.style.background = "red";
 
-        const letterDivContent = document.createTextNode("H");
+        const letterDivContent = document.createTextNode(`${playerWordGuess[i-1]}`);
         letterDiv.appendChild(letterDivContent);
 
         const guessDiv = document.getElementById("guessDisplay");
