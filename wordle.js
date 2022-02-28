@@ -10,7 +10,7 @@ let rightWords = [
     "tests",
 ];
 
-
+setUp();
 
 const guessButton = document.getElementById("submitGuessButton");
 guessButton.addEventListener('click', guess);
@@ -43,10 +43,34 @@ function guess(){
 
 
 function setUp(){
-    let playerGuessValue = 0;
-    let randomWordSelector = getRandomInt(0, rightWords.length);
+    // let playerGuessValue = 0;
+    // let randomWordSelector = getRandomInt(0, rightWords.length);
 
-    let currentWord = chooseWord(randomWordSelector);
+    // let currentWord = chooseWord(randomWordSelector);
+
+    for (let i=1;i < 6; i++){
+        const letterDiv = document.createElement("div");
+
+        letterDiv.setAttribute("id", `letter${i}`);
+        letterDiv.setAttribute("class", "letter");
+
+        letterDiv.style.width = "100px";
+        letterDiv.style.height = "100px";
+        letterDiv.style.fontSize = "50px";
+        letterDiv.style.border = "thick solid red";
+
+        letterDiv.style.display = "flex";
+        letterDiv.style.alignItems = "center";
+        letterDiv.style.justifyContent = "center";
+
+        // letterDiv.style.background = "red";
+
+        const letterDivContent = document.createTextNode("H");
+        letterDiv.appendChild(letterDivContent);
+
+        const guessDiv = document.getElementById("guessDisplay");
+        guessDiv.appendChild(letterDiv);
+    }
 
 }
 
@@ -54,6 +78,3 @@ function chooseWord(randomWordSelector){
     let thisWord = rightWords[randomWordSelector];
     return(thisWord);
 }
-
-setUp();
-
