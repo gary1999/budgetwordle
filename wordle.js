@@ -57,8 +57,8 @@ function displayGuess(playerWordGuess){
         letterDiv.setAttribute("id", `letter${i}`);
         letterDiv.setAttribute("class", "letter");
 
-        letterDiv.style.width = "100px";
-        letterDiv.style.height = "100px";
+        letterDiv.style.width = "75px";
+        letterDiv.style.height = "75px";
         letterDiv.style.fontSize = "50px";
         letterDiv.style.border = "thick solid red";
 
