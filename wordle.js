@@ -16,15 +16,12 @@ guessButton.addEventListener('click', guess);
 
 playerGuessValue = 0;
 
-
 function guess(){
 
     playerWordGuess = (document.getElementById('userGuess').value).toUpperCase();
-
-    let currentWord = "tooth";
-
+    let currentWord = "GAINS";
     displayGuess(playerWordGuess);
-
+    wordCheck(currentWord, playerWordGuess);
     while (playerGuessValue != 6){
 
         if(playerWordGuess == currentWord){
@@ -41,6 +38,31 @@ function guess(){
 
 }
 
+function wordCheck(currentWord, playerWordGuess){
+
+    const currentWordArray = currentWord.split("");
+    const playerWordGuessArray = playerWordGuess.split("");
+
+    for(i=0;i<5;i++){
+        console.log(currentWordArray[i]);
+        if(currentWordArray.indexOf(playerWordGuessArray[i]) == -1){
+            console.log(`Not here ${playerWordGuessArray[i]}`);
+
+        }
+        else{
+            const letterDivChange = document.getElementById(`letter${i}`);
+            letterDivChange.style.border = "thick solid blue";
+        }
+    }
+
+
+    console.log(currentWordArray);
+    console.log(playerWordGuessArray);
+}
+
+function setUp(){
+        
+}
 
 
 function displayGuess(playerWordGuess){
@@ -51,7 +73,7 @@ function displayGuess(playerWordGuess){
 
     document.getElementById("guessDisplay").innerHTML = "";
 
-    for (let i=1;i < 6; i++){
+    for (let i=0;i < 5; i++){
         const letterDiv = document.createElement("div");
 
         letterDiv.setAttribute("id", `letter${i}`);
@@ -68,7 +90,7 @@ function displayGuess(playerWordGuess){
 
         // letterDiv.style.background = "red";
 
-        const letterDivContent = document.createTextNode(`${playerWordGuess[i-1]}`);
+        const letterDivContent = document.createTextNode(`${playerWordGuess[i]}`);
         letterDiv.appendChild(letterDivContent);
 
         const guessDiv = document.getElementById("guessDisplay");
