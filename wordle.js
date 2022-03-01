@@ -5,22 +5,26 @@ function getRandomInt(min, max) {
 }
 
 let rightWords = [
-    // "crane",
-    "tooth",
-    "tests",
+    "CRANE",
+    "RIGHT",
+    "GAINS",
 ];
 
 setUp();
 
+let randomWordSelector = getRandomInt(0, rightWords.length);
+let currentWord = chooseWord(randomWordSelector);
+playerGuessValue = 0;
+
 const guessButton = document.getElementById("submitGuessButton");
 guessButton.addEventListener('click', guess);
 
-playerGuessValue = 0;
+
 
 function guess(){
 
     playerWordGuess = (document.getElementById('userGuess').value).toUpperCase();
-    let currentWord = "GAINS";
+    //let currentWord = "GAINS";
     displayGuess(playerWordGuess);
     wordCheck(currentWord, playerWordGuess);
     while (playerGuessValue != 6){
@@ -44,22 +48,12 @@ function wordCheck(currentWord, playerWordGuess){
     const currentWordArray = currentWord.split("");
     const playerWordGuessArray = playerWordGuess.split("");
 
-    // const guessDiv = document.getElementById(`guessDiv${playerGuessValue}`);
-    // const letterDiv = guessDiv.getElementById(`letter0`);
-    // console.log(letterDiv);
-
     for(i=0;i<5;i++){
 
         let letterString = ("" + playerGuessValue + i)
-        console.log(letterString);
-
         const letterDiv = document.getElementById(`letter${letterString}`);
         const letterDivContent = document.createTextNode(`${playerWordGuess[i]}`);
         letterDiv.appendChild(letterDivContent);
-        //guessDiv.innerHTML = "";
-        //guessDiv.appendChild(letterDiv);
-
-        //var targetDiv = document.getElementById("foo").getElementsByClassName("bar")[0];
 
         console.log(currentWordArray[i]);
         const letterDivChange = document.getElementById(`letter${letterString}`);
@@ -109,8 +103,6 @@ function setUp(){
             letterDiv.style.display = "flex";
             letterDiv.style.alignItems = "center";
             letterDiv.style.justifyContent = "center";
-            
-            // letterDiv.style.background = "red";
             
 
             
