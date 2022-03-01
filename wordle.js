@@ -60,8 +60,45 @@ function wordCheck(currentWord, playerWordGuess){
     console.log(playerWordGuessArray);
 }
 
+setUp();
+
 function setUp(){
-        
+
+    for (let i=0;i<6; i++){
+        const guessDisplayDiv = document.createElement("div");
+        guessDisplayDiv.setAttribute("id", `guessDiv${i}`);
+        guessDisplayDiv.setAttribute("class", "guessDiv");
+
+        guessDisplayDiv.style.display = "flex";
+
+        const guessContainerDiv = document.getElementById("guessContainerDiv");
+        guessContainerDiv.appendChild(guessDisplayDiv);
+
+        for (let j=0;j < 5; j++){
+            const letterDiv = document.createElement("div");
+            
+            letterDiv.setAttribute("id", `letter${j}`);
+            letterDiv.setAttribute("class", "letter");
+            
+            letterDiv.style.width = "75px";
+            letterDiv.style.height = "75px";
+            letterDiv.style.fontSize = "50px";
+            letterDiv.style.border = "thick solid red";
+            letterDiv.style.margin = "5px"
+            
+            letterDiv.style.display = "flex";
+            letterDiv.style.alignItems = "center";
+            letterDiv.style.justifyContent = "center";
+            
+            // letterDiv.style.background = "red";
+            
+            // const letterDivContent = document.createTextNode(`${playerWordGuess[i]}`);
+            // letterDiv.appendChild(letterDivContent);
+            
+            const guessDiv = document.getElementById(`guessDiv${i}`);
+            guessDiv.appendChild(letterDiv);
+        }
+    }
 }
 
 
@@ -73,29 +110,7 @@ function displayGuess(playerWordGuess){
 
     document.getElementById("guessDisplay").innerHTML = "";
 
-    for (let i=0;i < 5; i++){
-        const letterDiv = document.createElement("div");
 
-        letterDiv.setAttribute("id", `letter${i}`);
-        letterDiv.setAttribute("class", "letter");
-
-        letterDiv.style.width = "75px";
-        letterDiv.style.height = "75px";
-        letterDiv.style.fontSize = "50px";
-        letterDiv.style.border = "thick solid red";
-
-        letterDiv.style.display = "flex";
-        letterDiv.style.alignItems = "center";
-        letterDiv.style.justifyContent = "center";
-
-        // letterDiv.style.background = "red";
-
-        const letterDivContent = document.createTextNode(`${playerWordGuess[i]}`);
-        letterDiv.appendChild(letterDivContent);
-
-        const guessDiv = document.getElementById("guessDisplay");
-        guessDiv.appendChild(letterDiv);
-    }
 
 }
 

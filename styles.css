@@ -1,7 +1,7 @@
-#guessDisplay{
-    display: flex;
+#guessContainerDiv{
+    /* display: flex;
     flex-direction: row;
     align-content: center;
-    justify-content: space-around;
-    width: 450px;
+    justify-content: space-around; */
+    width: 600px;
 }
