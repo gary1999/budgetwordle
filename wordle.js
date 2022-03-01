@@ -43,14 +43,30 @@ function wordCheck(currentWord, playerWordGuess){
     const currentWordArray = currentWord.split("");
     const playerWordGuessArray = playerWordGuess.split("");
 
+    // const guessDiv = document.getElementById(`guessDiv${playerGuessValue}`);
+    // const letterDiv = guessDiv.getElementById(`letter0`);
+    // console.log(letterDiv);
+
     for(i=0;i<5;i++){
+
+        let letterString = ("" + playerGuessValue + i)
+        console.log(letterString);
+
+        const letterDiv = document.getElementById(`letter${letterString}`);
+        const letterDivContent = document.createTextNode(`${playerWordGuess[i]}`);
+        letterDiv.appendChild(letterDivContent);
+        //guessDiv.innerHTML = "";
+        //guessDiv.appendChild(letterDiv);
+
+        //var targetDiv = document.getElementById("foo").getElementsByClassName("bar")[0];
+
         console.log(currentWordArray[i]);
         if(currentWordArray.indexOf(playerWordGuessArray[i]) == -1){
             console.log(`Not here ${playerWordGuessArray[i]}`);
 
         }
         else{
-            const letterDivChange = document.getElementById(`letter${i}`);
+            const letterDivChange = document.getElementById(`letter${letterString}`);
             letterDivChange.style.border = "thick solid blue";
         }
     }
@@ -77,13 +93,15 @@ function setUp(){
         for (let j=0;j < 5; j++){
             const letterDiv = document.createElement("div");
             
-            letterDiv.setAttribute("id", `letter${j}`);
+            let letterString = "" + i + j;
+
+            letterDiv.setAttribute("id", `letter${letterString}`);
             letterDiv.setAttribute("class", "letter");
             
             letterDiv.style.width = "75px";
             letterDiv.style.height = "75px";
             letterDiv.style.fontSize = "50px";
-            letterDiv.style.border = "thick solid red";
+            letterDiv.style.border = "thick solid black";
             letterDiv.style.margin = "5px"
             
             letterDiv.style.display = "flex";
@@ -92,8 +110,7 @@ function setUp(){
             
             // letterDiv.style.background = "red";
             
-            // const letterDivContent = document.createTextNode(`${playerWordGuess[i]}`);
-            // letterDiv.appendChild(letterDivContent);
+
             
             const guessDiv = document.getElementById(`guessDiv${i}`);
             guessDiv.appendChild(letterDiv);
@@ -108,7 +125,7 @@ function displayGuess(playerWordGuess){
 
     // let currentWord = chooseWord(randomWordSelector);
 
-    document.getElementById("guessDisplay").innerHTML = "";
+    //document.getElementById("guessDisplay").innerHTML = "";
 
 
 
