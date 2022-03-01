@@ -10,6 +10,7 @@ let rightWords = [
     "tests",
 ];
 
+setUp();
 
 const guessButton = document.getElementById("submitGuessButton");
 guessButton.addEventListener('click', guess);
@@ -61,13 +62,16 @@ function wordCheck(currentWord, playerWordGuess){
         //var targetDiv = document.getElementById("foo").getElementsByClassName("bar")[0];
 
         console.log(currentWordArray[i]);
-        if(currentWordArray.indexOf(playerWordGuessArray[i]) == -1){
-            console.log(`Not here ${playerWordGuessArray[i]}`);
+        const letterDivChange = document.getElementById(`letter${letterString}`);
 
+        if(currentWordArray[i] === playerWordGuessArray[i]){
+            letterDivChange.style.border = "thick solid blue";
+        }
+        else if(currentWordArray.indexOf(playerWordGuessArray[i]) == -1){
+            letterDivChange.style.border = "thick solid red";
         }
         else{
-            const letterDivChange = document.getElementById(`letter${letterString}`);
-            letterDivChange.style.border = "thick solid blue";
+            letterDivChange.style.border = "thick solid yellow";
         }
     }
 
@@ -75,8 +79,6 @@ function wordCheck(currentWord, playerWordGuess){
     console.log(currentWordArray);
     console.log(playerWordGuessArray);
 }
-
-setUp();
 
 function setUp(){
 
