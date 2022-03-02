@@ -1,3 +1,4 @@
+//hey ITS YA BOY JON IN THE FUCKING CODEEEE
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -11,13 +12,10 @@ let rightWords = [
 ];
 
 let playerGuessValue;
+let randomWordSelector;
+let currentWord;
 
 setUp();
-
-let randomWordSelector = getRandomInt(0, rightWords.length);
-let currentWord = chooseWord(randomWordSelector);
-
-
 
 const guessButton = document.getElementById("submitGuessButton");
 guessButton.addEventListener('click', guessClick);
@@ -53,9 +51,13 @@ function guessClick(){
 function validWord(playerWordGuess){
 
     if(playerWordGuess.length == 5){
-        
-        wordCheck(currentWord, playerWordGuess);
-        playerGuessValue += 1;
+        if(/^[a-zA-Z]+$/.test(playerWordGuess)){
+            wordCheck(playerWordGuess);
+            playerGuessValue += 1;
+        }
+        else{
+            console.log("invalid");
+        }
     }
     else{
         console.log("invalid");
@@ -65,7 +67,7 @@ function validWord(playerWordGuess){
 
 }
 
-function wordCheck(currentWord, playerWordGuess){
+function wordCheck(playerWordGuess){
 
     const currentWordArray = currentWord.split("");
     const playerWordGuessArray = playerWordGuess.split("");
@@ -99,6 +101,8 @@ function wordCheck(currentWord, playerWordGuess){
 function setUp(){
 
     playerGuessValue = 0;
+    randomWordSelector = getRandomInt(0, rightWords.length);
+    currentWord = chooseWord(randomWordSelector);
 
     document.getElementById("guessContainerDiv").innerHTML = "";
 
