@@ -10,36 +10,58 @@ let rightWords = [
     "GAINS",
 ];
 
+let playerGuessValue;
+
 setUp();
 
 let randomWordSelector = getRandomInt(0, rightWords.length);
 let currentWord = chooseWord(randomWordSelector);
-playerGuessValue = 0;
+
+
 
 const guessButton = document.getElementById("submitGuessButton");
-guessButton.addEventListener('click', guess);
+guessButton.addEventListener('click', guessClick);
 
+const retryButton = document.getElementById("retryButton");
+retryButton.addEventListener('click', setUp);
 
+function guessEnter(){
+    if(event.key === 'Enter'){
+        playerWordGuess = (document.getElementById('userGuess').value).toUpperCase();
+        validWord(playerWordGuess);
+    }
+}
 
-function guess(){
-
+function guessClick(){
     playerWordGuess = (document.getElementById('userGuess').value).toUpperCase();
-    //let currentWord = "GAINS";
-    displayGuess(playerWordGuess);
-    wordCheck(currentWord, playerWordGuess);
+    validWord(playerWordGuess);
     while (playerGuessValue != 6){
-
+    
         if(playerWordGuess == currentWord){
             console.log("Win");
             playerGuessValue = 6;
         }
         else{
             console.log("Lose")
-            playerGuessValue += 1;
             break;
         };
         
     }
+
+}
+
+function validWord(playerWordGuess){
+
+    if(playerWordGuess.length == 5){
+        
+        wordCheck(currentWord, playerWordGuess);
+        playerGuessValue += 1;
+    }
+    else{
+        console.log("invalid");
+    }
+
+
 
 }
 
@@ -75,6 +97,10 @@ function wordCheck(currentWord, playerWordGuess){
 }
 
 function setUp(){
+
+    playerGuessValue = 0;
+
+    document.getElementById("guessContainerDiv").innerHTML = "";
 
     for (let i=0;i<6; i++){
         const guessDisplayDiv = document.createElement("div");

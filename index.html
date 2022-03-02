@@ -18,9 +18,12 @@
         <h1>Budget Wordle</h1>
 
         <label for="input">Make your guess:</label>
-        <input type="text" id="userGuess" name="userGuess" maxlength="5"><br><br>
+        <input type="text" id="userGuess" name="userGuess" maxlength="5" onkeydown="guessEnter()"><br><br>
 
         <button id="submitGuessButton">Submit</button>
+
+        <button id="retryButton">Retry</button>
+
     </div>
 
     <br><br>
