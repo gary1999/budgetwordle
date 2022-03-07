@@ -7,7 +7,7 @@ function getRandomInt(min, max) {
 // Testing purposes
 let rightWords = [
     // "CRANE",
-    // "RIGHT",
+    "RIGHT",
     "GAINS",
 ];
 
@@ -75,7 +75,7 @@ function endGameCondition(){
     while (playerGuessValue != 6){
         if(playerWordGuess == currentWord){
             playerGuessValue = 6;
-            
+
             playerWinStreak = parseInt(playerWinStreak) + parseInt(1);
             if (playerWinStreak > playerMaxWinStreak){
                 playerMaxWinStreak = playerWinStreak;
@@ -85,7 +85,12 @@ function endGameCondition(){
         else{
             break;
         };
-    };
+    }
+
+    if (playerGuessValue == 6 && playerWordGuess != currentWord){
+        playerWinStreak = 0;
+        update();
+    }
 }
 
 function validWord(playerWordGuess){
