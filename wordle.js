@@ -1,13 +1,13 @@
-//hey ITS YA BOY JON IN THE FUCKING CODEEEE
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min) + min);
 }
 
+// Testing purposes
 let rightWords = [
-    "CRANE",
-    "RIGHT",
+    // "CRANE",
+    // "RIGHT",
     "GAINS",
 ];
 
@@ -15,13 +15,48 @@ let playerGuessValue;
 let randomWordSelector;
 let currentWord;
 
+let playerWinStreak = localStorage.getItem("playerWinStreak");
+let playerMaxWinStreak = localStorage.getItem("playerMaxWinStreak");
+
+
+if (playerWinStreak != null){
+    playerWinStreak = parseInt(playerWinStreak);
+}
+else{
+    playerWinStreak = 0;
+}
+
+
+
+function update(){
+    localStorage.setItem("playerWinStreak", playerWinStreak);
+    localStorage.setItem("playerMaxWinStreak", playerMaxWinStreak);
+    
+    document.getElementById("currentStreak").innerHTML = playerWinStreak;
+    document.getElementById("highestStreak").innerHTML = playerMaxWinStreak;
+}
+
+
 setUp();
 
 const guessButton = document.getElementById("submitGuessButton");
-guessButton.addEventListener('click', guessClick);
-
 const retryButton = document.getElementById("retryButton");
+const fullResetButton = document.getElementById("fullResetButton");
+
+guessButton.addEventListener('click', guessClick);
 retryButton.addEventListener('click', setUp);
+fullResetButton.addEventListener('click', fullReset);
+
+function fullReset(){
+
+    playerWinStreak = 0;
+    playerMaxWinStreak = 0;
+
+    localStorage.setItem("playerWinStreak", playerWinStreak);
+    localStorage.setItem("playerMaxWinStreak", playerMaxWinStreak);
+    
+    update();
+}
 
 function guessEnter(){
     if(event.key === 'Enter'){
@@ -33,23 +68,27 @@ function guessEnter(){
 function guessClick(){
     playerWordGuess = (document.getElementById('userGuess').value).toUpperCase();
     validWord(playerWordGuess);
-    while (playerGuessValue != 6){
-    
-        if(playerWordGuess == currentWord){
-            console.log("Win");
-            playerGuessValue = 6;
-        }
-        else{
-            console.log("Lose")
-            break;
-        };
-        
-    }
 
 }
 
-function validWord(playerWordGuess){
+function endGameCondition(){
+    while (playerGuessValue != 6){
+        if(playerWordGuess == currentWord){
+            playerGuessValue = 6;
+            
+            playerWinStreak = parseInt(playerWinStreak) + parseInt(1);
+            if (playerWinStreak > playerMaxWinStreak){
+                playerMaxWinStreak = playerWinStreak;
+            }
+            update();
+        }
+        else{
+            break;
+        };
+    };
+}
 
+function validWord(playerWordGuess){
     if(playerWordGuess.length == 5){
         if(/^[a-zA-Z]+$/.test(playerWordGuess)){
             wordCheck(playerWordGuess);
@@ -62,9 +101,7 @@ function validWord(playerWordGuess){
     else{
         console.log("invalid");
     }
-
-
-
+    endGameCondition();
 }
 
 function wordCheck(playerWordGuess){
@@ -79,7 +116,6 @@ function wordCheck(playerWordGuess){
         const letterDivContent = document.createTextNode(`${playerWordGuess[i]}`);
         letterDiv.appendChild(letterDivContent);
 
-        console.log(currentWordArray[i]);
         const letterDivChange = document.getElementById(`letter${letterString}`);
 
         if(currentWordArray[i] === playerWordGuessArray[i]){
@@ -99,13 +135,18 @@ function wordCheck(playerWordGuess){
 }
 
 function setUp(){
+    
+    update();
 
+    // Initialise values
     playerGuessValue = 0;
     randomWordSelector = getRandomInt(0, rightWords.length);
     currentWord = chooseWord(randomWordSelector);
 
+    // Reset the page
     document.getElementById("guessContainerDiv").innerHTML = "";
 
+    // Set up boxes
     for (let i=0;i<6; i++){
         const guessDisplayDiv = document.createElement("div");
         guessDisplayDiv.setAttribute("id", `guessDiv${i}`);
@@ -143,17 +184,7 @@ function setUp(){
 }
 
 
-function displayGuess(playerWordGuess){
-    // let playerGuessValue = 0;
-    // let randomWordSelector = getRandomInt(0, rightWords.length);
 
-    // let currentWord = chooseWord(randomWordSelector);
-
-    //document.getElementById("guessDisplay").innerHTML = "";
-
-
-
-}
 
 function chooseWord(randomWordSelector){
     let thisWord = rightWords[randomWordSelector];

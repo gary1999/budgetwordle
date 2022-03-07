@@ -1,7 +1,20 @@
+
+
 #guessContainerDiv{
     /* display: flex;
     flex-direction: row;
     align-content: center;
     justify-content: space-around; */
     width: 600px;
+}
+
+#streakContainer{
+    display: flex;
+    flex-direction: row;
+    margin: 5px;
+}
+
+.streak{
+    padding: 5px;
+    border-style: double;
 }
