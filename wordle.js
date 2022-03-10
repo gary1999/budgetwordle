@@ -7,7 +7,7 @@ function getRandomInt(min, max) {
 // Testing purposes
 let rightWords = [
     // "CRANE",
-    "RIGHT",
+    // "RIGHT",
     "GAINS",
 ];
 
@@ -41,11 +41,13 @@ setUp();
 
 const guessButton = document.getElementById("submitGuessButton");
 const retryButton = document.getElementById("retryButton");
-const fullResetButton = document.getElementById("fullResetButton");
 
 guessButton.addEventListener('click', guessClick);
 retryButton.addEventListener('click', setUp);
-fullResetButton.addEventListener('click', fullReset);
+
+// Testing Purposes
+// const fullResetButton = document.getElementById("fullResetButton");
+// fullResetButton.addEventListener('click', fullReset);
 
 function fullReset(){
 
@@ -80,6 +82,9 @@ function endGameCondition(){
             if (playerWinStreak > playerMaxWinStreak){
                 playerMaxWinStreak = playerWinStreak;
             }
+
+            //alert("You won\nPress Retry for another word");
+
             update();
         }
         else{
@@ -141,6 +146,11 @@ function wordCheck(playerWordGuess){
 
 function setUp(){
     
+
+    if(playerGuessValue != 6){
+        playerWinStreak = 0;
+    }
+
     update();
 
     // Initialise values
