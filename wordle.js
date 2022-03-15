@@ -98,6 +98,10 @@ function endGameCondition(){
     }
 }
 
+function test(){
+    return false;
+}
+
 function validWord(playerWordGuess){
     if(playerWordGuess.length == 5){
         if(/^[a-zA-Z]+$/.test(playerWordGuess)){
