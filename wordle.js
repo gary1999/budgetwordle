@@ -27,6 +27,10 @@ else{
 }
 
 
+window.addEventListener('keydown', function (e) {
+    console.log(e.keyCode);
+});
+
 
 function update(){
     localStorage.setItem("playerWinStreak", playerWinStreak);
