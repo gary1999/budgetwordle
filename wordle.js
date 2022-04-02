@@ -26,6 +26,64 @@ else{
     playerWinStreak = 0;
 }
 
+let currentLineValue = 0;
+let currentBoxValue = 0;
+let playerWordGuess = "";
+let letterDivTestContent;
+let testGuessDiv = document.getElementById(`letter${currentLineValue}${currentBoxValue}`);
+
+function displayLetter(letter){
+
+    testGuessDiv = document.getElementById(`letter${currentLineValue}${currentBoxValue}`);
+
+    if(currentBoxValue != 5){
+        testGuessDiv.innerHTML = letter;
+    }
+}
+
+function removeLetter(){
+    testGuessDiv = document.getElementById(`letter${currentLineValue}${currentBoxValue}`);
+
+    if(currentBoxValue != 5){
+        testGuessDiv.innerHTML = "";
+    }
+
+}
+
+window.addEventListener('keydown', function (e) {
+
+    // console.log(e);
+    // console.log(e.key);
+    //Check if the player inputted a letter
+    if(e.keyCode >= 65 && e.keyCode <= 90){
+        if(currentBoxValue != 5){
+            displayLetter(e.key);
+            playerWordGuess = playerWordGuess + (e.key);
+            //console.log(`letter${currentLineValue}${currentBoxValue}`);
+            currentBoxValue += 1;
+            
+        }
+    //Check if player pressed backspace
+    } else if (e.keyCode == 8){
+        if(currentBoxValue == 0){
+            //Placeholder
+            currentBoxValue = 0;
+        } else if(currentBoxValue != 6){
+            currentBoxValue -= 1;
+            console.log(currentBoxValue);
+            removeLetter();
+        }
+    //Check if player pressed enter
+    } else if (e.keyCode == 13){
+        if(currentBoxValue == 5){
+            validWord(playerWordGuess);
+            playerWordGuess = "";
+            currentLineValue += 1;
+            currentBoxValue = 0;
+        }
+    }
+
+});
 
 
 function update(){
@@ -39,10 +97,10 @@ function update(){
 
 setUp();
 
-const guessButton = document.getElementById("submitGuessButton");
+//const guessButton = document.getElementById("submitGuessButton");
 const retryButton = document.getElementById("retryButton");
 
-guessButton.addEventListener('click', guessClick);
+//guessButton.addEventListener('click', guessClick);
 retryButton.addEventListener('click', setUp);
 
 // Testing Purposes
@@ -60,18 +118,18 @@ function fullReset(){
     update();
 }
 
-function guessEnter(){
-    if(event.key === 'Enter'){
-        playerWordGuess = (document.getElementById('userGuess').value).toUpperCase();
-        validWord(playerWordGuess);
-    }
-}
+// function guessEnter(){
+//     if(event.key === 'Enter'){
+//         playerWordGuess = (document.getElementById('userGuess').value).toUpperCase();
+//         validWord(playerWordGuess);
+//     }
+// }
 
-function guessClick(){
-    playerWordGuess = (document.getElementById('userGuess').value).toUpperCase();
-    validWord(playerWordGuess);
+// function guessClick(){
+//     playerWordGuess = (document.getElementById('userGuess').value).toUpperCase();
+//     validWord(playerWordGuess);
 
-}
+// }
 
 function endGameCondition(){
     while (playerGuessValue != 6){
@@ -98,10 +156,6 @@ function endGameCondition(){
     }
 }
 
-function test(){
-    return false;
-}
-
 function validWord(playerWordGuess){
     if(playerWordGuess.length == 5){
         if(/^[a-zA-Z]+$/.test(playerWordGuess)){
@@ -126,9 +180,9 @@ function wordCheck(playerWordGuess){
     for(i=0;i<5;i++){
 
         let letterString = ("" + playerGuessValue + i)
-        const letterDiv = document.getElementById(`letter${letterString}`);
-        const letterDivContent = document.createTextNode(`${playerWordGuess[i]}`);
-        letterDiv.appendChild(letterDivContent);
+        // const letterDiv = document.getElementById(`letter${letterString}`);
+        // const letterDivContent = document.createTextNode(`${playerWordGuess[i]}`);
+        // letterDiv.appendChild(letterDivContent);
 
         const letterDivChange = document.getElementById(`letter${letterString}`);
 
