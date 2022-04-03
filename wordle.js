@@ -39,6 +39,9 @@ let currentBoxValue;
 let guessDiv;
 let playerWordGuess;
 
+let currentWordArray;
+let playerWordGuessArray;
+
 function displayLetter(letter){
 
     guessDiv = document.getElementById(`letter${currentLineValue}${currentBoxValue}`);
@@ -58,12 +61,12 @@ function removeLetter(){
 }
 
 let keyDown = (e) => {
-
     //Check if the player inputted a letter
     if(e.keyCode >= 65 && e.keyCode <= 90){
         if(currentBoxValue != 5){
             displayLetter(e.key);
             playerWordGuess = playerWordGuess + (e.key);
+            console.log(playerWordGuess);
             //console.log(`letter${currentLineValue}${currentBoxValue}`);
             currentBoxValue += 1;
             
@@ -77,6 +80,8 @@ let keyDown = (e) => {
             currentBoxValue -= 1;
             console.log(currentBoxValue);
             removeLetter();
+            playerWordGuess = playerWordGuess.slice(0, -1);
+            console.log(playerWordGuess);
         }
     //Check if player pressed enter
     } else if (e.keyCode == 13){
@@ -90,8 +95,6 @@ let keyDown = (e) => {
     }
 };
 
-window.addEventListener('keydown', keyDown);
-
 
 function updateStreak(){
     localStorage.setItem("playerWinStreak", playerWinStreak);
@@ -104,103 +107,13 @@ function updateStreak(){
 
 setUp();
 
-const retryButton = document.getElementById("retryButton");
-retryButton.addEventListener('click', setUp);
-
-// Testing Purposes
-// const fullResetButton = document.getElementById("fullResetButton");
-// fullResetButton.addEventListener('click', fullReset);
-
-function fullReset(){
-
-    playerWinStreak = 0;
-    playerMaxWinStreak = 0;
-    localStorage.setItem("playerWinStreak", playerWinStreak);
-    localStorage.setItem("playerMaxWinStreak", playerMaxWinStreak);
-    updateStreak();
-
-}
-
-function endGameCondition(){
-    while (playerGuessValue != 6){
-        if(playerWordGuess === currentWord){
-            playerGuessValue = 6;
-
-            playerWinStreak = parseInt(playerWinStreak) + parseInt(1);
-            if (playerWinStreak > playerMaxWinStreak){
-                playerMaxWinStreak = playerWinStreak;
-            }
-
-            window.removeEventListener('keydown', keyDown);
-
-            //alert("You won\nPress Retry for another word");
-
-            updateStreak();
-        }
-        else{
-            break;
-        };
-    }
-
-    if (playerGuessValue == 6 && playerWordGuess != currentWord){
-        playerWinStreak = 0;
-        updateStreak();
-    }
-}
-
-function validWord(){
-    // playerWordGuess = playerWordGuess.toUpperCase();
-    // console.log(playerWordGuess);
-    if(playerWordGuess.length == 5){
-        if(/^[a-zA-Z]+$/.test(playerWordGuess)){
-            playerWordGuess = playerWordGuess.toUpperCase();
-            wordCheck(playerWordGuess);
-            playerGuessValue += 1;
-        }
-        else{
-            console.log("Word doesn't have letters - invalid");
-        }
-    }
-    else{
-        console.log("Word is not 5 letters long - invalid");
-    }
-    endGameCondition();
-}
-
-function wordCheck(){
-
-    const currentWordArray = currentWord.split("");
-    const playerWordGuessArray = playerWordGuess.split("");
-
-    for(i=0;i<5;i++){
-
-        // const letterDiv = document.getElementById(`letter${letterString}`);
-        // const letterDivContent = document.createTextNode(`${playerWordGuess[i]}`);
-        // letterDiv.appendChild(letterDivContent);
-        
-        let letterString = ("" + playerGuessValue + i)
-        const letterDivChange = document.getElementById(`letter${letterString}`);
-
-        if(currentWordArray[i] === playerWordGuessArray[i]){
-            letterDivChange.style.border = "thick solid blue";
-        }
-        else if(currentWordArray.indexOf(playerWordGuessArray[i]) == -1){
-            letterDivChange.style.border = "thick solid red";
-        }
-        else{
-            letterDivChange.style.border = "thick solid yellow";
-        }
-    }
-
-    console.log(currentWordArray);
-    console.log(playerWordGuessArray);
-}
-
 function setUp(){
     
-    if(playerGuessValue != 6){
-        playerWinStreak = 0;
-    }
+    window.addEventListener('keydown', keyDown);
+
+    // if(playerGuessValue != 6){
+    //     playerWinStreak = 0;
+    // }
 
     updateStreak();
 
@@ -213,6 +126,9 @@ function setUp(){
     currentBoxValue = 0;
     guessDiv = document.getElementById(`letter${currentLineValue}${currentBoxValue}`);
     playerWordGuess = "";
+
+    currentWordArray = [];
+    playerWordGuessArray = [];
 
     // Reset the page
     document.getElementById("guessContainerDiv").innerHTML = "";
@@ -256,3 +172,93 @@ function chooseWord(randomWordSelector){
     let thisWord = rightWords[randomWordSelector];
     return(thisWord);
 }
+
+const retryButton = document.getElementById("retryButton");
+retryButton.addEventListener('click', setUp);
+
+// Testing Purposes
+// const fullResetButton = document.getElementById("fullResetButton");
+// fullResetButton.addEventListener('click', fullReset);
+// function fullReset(){
+//     playerWinStreak = 0;
+//     playerMaxWinStreak = 0;
+//     localStorage.setItem("playerWinStreak", playerWinStreak);
+//     localStorage.setItem("playerMaxWinStreak", playerMaxWinStreak);
+//     updateStreak();
+// }
+
+function validWord(){
+    // playerWordGuess = playerWordGuess.toUpperCase();
+    // console.log(playerWordGuess);
+    if(playerWordGuess.length == 5){
+        if(/^[a-zA-Z]+$/.test(playerWordGuess)){
+            playerWordGuess = playerWordGuess.toUpperCase();
+
+            currentWordArray = currentWord.split("");
+            playerWordGuessArray = playerWordGuess.split("");
+            
+            wordCheck();
+            playerGuessValue += 1;
+        }
+        else{
+            console.log("Word doesn't have letters - invalid");
+        }
+    }
+    else{
+        console.log("Word is not 5 letters long - invalid");
+    }
+    endGameCondition();
+}
+
+function wordCheck(){
+
+    for(i=0;i<5;i++){
+
+        let letterString = ("" + currentLineValue + i)
+        let letterDivChange = document.getElementById(`letter${letterString}`);
+
+
+        if(currentWordArray[i] == playerWordGuessArray[i]){
+            letterDivChange.style.border = "thick solid blue";
+            console.log(letterDivChange);
+            console.log("working here");
+        }
+        else if(currentWordArray.indexOf(playerWordGuessArray[i]) == -1){
+            letterDivChange.style.border = "thick solid red";
+        }
+        else{
+            letterDivChange.style.border = "thick solid yellow";
+        }
+    }
+
+    console.log(currentWordArray);
+    console.log(playerWordGuessArray);
+}
+
+function endGameCondition(){
+    while (playerGuessValue != 6){
+        if(playerWordGuess === currentWord){
+            playerGuessValue = 6;
+
+            playerWinStreak = parseInt(playerWinStreak) + parseInt(1);
+            if (playerWinStreak > playerMaxWinStreak){
+                playerMaxWinStreak = playerWinStreak;
+            }
+
+            window.removeEventListener('keydown', keyDown);
+
+            //alert("You won\nPress Retry for another word");
+
+            updateStreak();
+        }
+        else{
+            break;
+        };
+    }
+
+    if (playerGuessValue == 6 && playerWordGuess != currentWord){
+        playerWinStreak = 0;
+        updateStreak();
+    }
+}
+
