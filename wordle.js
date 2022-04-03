@@ -26,34 +26,39 @@ else{
     playerWinStreak = 0;
 }
 
-let currentLineValue = 0;
-let currentBoxValue = 0;
-let playerWordGuess = "";
-let letterDivTestContent;
-let testGuessDiv = document.getElementById(`letter${currentLineValue}${currentBoxValue}`);
+// Each box is represented by two numbers.
+// The first number is the row it is in as well as what number
+// guess the player is on.
+// The second number is column the letter goes in. 
+// Eg. 
+// The second guess of the game is xxaxx
+// The 'a' goes into box number 12. (Index starts at 0);
+
+let currentLineValue; 
+let currentBoxValue;
+let guessDiv;
+let playerWordGuess;
 
 function displayLetter(letter){
 
-    testGuessDiv = document.getElementById(`letter${currentLineValue}${currentBoxValue}`);
+    guessDiv = document.getElementById(`letter${currentLineValue}${currentBoxValue}`);
 
     if(currentBoxValue != 5){
-        testGuessDiv.innerHTML = letter;
+        guessDiv.innerHTML = letter.toUpperCase();
     }
 }
 
 function removeLetter(){
-    testGuessDiv = document.getElementById(`letter${currentLineValue}${currentBoxValue}`);
+    guessDiv = document.getElementById(`letter${currentLineValue}${currentBoxValue}`);
 
     if(currentBoxValue != 5){
-        testGuessDiv.innerHTML = "";
+        guessDiv.innerHTML = "";
     }
 
 }
 
-window.addEventListener('keydown', function (e) {
+let keyDown = (e) => {
 
-    // console.log(e);
-    // console.log(e.key);
     //Check if the player inputted a letter
     if(e.keyCode >= 65 && e.keyCode <= 90){
         if(currentBoxValue != 5){
@@ -76,17 +81,19 @@ window.addEventListener('keydown', function (e) {
     //Check if player pressed enter
     } else if (e.keyCode == 13){
         if(currentBoxValue == 5){
-            validWord(playerWordGuess);
+            //validWord(playerWordGuess.toUpperCase());
+            validWord();
             playerWordGuess = "";
             currentLineValue += 1;
             currentBoxValue = 0;
         }
     }
+};
 
-});
+window.addEventListener('keydown', keyDown);
 
 
-function update(){
+function updateStreak(){
     localStorage.setItem("playerWinStreak", playerWinStreak);
     localStorage.setItem("playerMaxWinStreak", playerMaxWinStreak);
     
@@ -97,10 +104,7 @@ function update(){
 
 setUp();
 
-//const guessButton = document.getElementById("submitGuessButton");
 const retryButton = document.getElementById("retryButton");
-
-//guessButton.addEventListener('click', guessClick);
 retryButton.addEventListener('click', setUp);
 
 // Testing Purposes
@@ -111,29 +115,15 @@ function fullReset(){
 
     playerWinStreak = 0;
     playerMaxWinStreak = 0;
-
     localStorage.setItem("playerWinStreak", playerWinStreak);
     localStorage.setItem("playerMaxWinStreak", playerMaxWinStreak);
-    
-    update();
+    updateStreak();
+
 }
-
-// function guessEnter(){
-//     if(event.key === 'Enter'){
-//         playerWordGuess = (document.getElementById('userGuess').value).toUpperCase();
-//         validWord(playerWordGuess);
-//     }
-// }
-
-// function guessClick(){
-//     playerWordGuess = (document.getElementById('userGuess').value).toUpperCase();
-//     validWord(playerWordGuess);
-
-// }
 
 function endGameCondition(){
     while (playerGuessValue != 6){
-        if(playerWordGuess == currentWord){
+        if(playerWordGuess === currentWord){
             playerGuessValue = 6;
 
             playerWinStreak = parseInt(playerWinStreak) + parseInt(1);
@@ -141,9 +131,11 @@ function endGameCondition(){
                 playerMaxWinStreak = playerWinStreak;
             }
 
+            window.removeEventListener('keydown', keyDown);
+
             //alert("You won\nPress Retry for another word");
 
-            update();
+            updateStreak();
         }
         else{
             break;
@@ -152,38 +144,41 @@ function endGameCondition(){
 
     if (playerGuessValue == 6 && playerWordGuess != currentWord){
         playerWinStreak = 0;
-        update();
+        updateStreak();
     }
 }
 
-function validWord(playerWordGuess){
+function validWord(){
+    // playerWordGuess = playerWordGuess.toUpperCase();
+    // console.log(playerWordGuess);
     if(playerWordGuess.length == 5){
         if(/^[a-zA-Z]+$/.test(playerWordGuess)){
+            playerWordGuess = playerWordGuess.toUpperCase();
             wordCheck(playerWordGuess);
             playerGuessValue += 1;
         }
         else{
-            console.log("invalid");
+            console.log("Word doesn't have letters - invalid");
         }
     }
     else{
-        console.log("invalid");
+        console.log("Word is not 5 letters long - invalid");
     }
     endGameCondition();
 }
 
-function wordCheck(playerWordGuess){
+function wordCheck(){
 
     const currentWordArray = currentWord.split("");
     const playerWordGuessArray = playerWordGuess.split("");
 
     for(i=0;i<5;i++){
 
-        let letterString = ("" + playerGuessValue + i)
         // const letterDiv = document.getElementById(`letter${letterString}`);
         // const letterDivContent = document.createTextNode(`${playerWordGuess[i]}`);
         // letterDiv.appendChild(letterDivContent);
-
+        
+        let letterString = ("" + playerGuessValue + i)
         const letterDivChange = document.getElementById(`letter${letterString}`);
 
         if(currentWordArray[i] === playerWordGuessArray[i]){
@@ -197,24 +192,27 @@ function wordCheck(playerWordGuess){
         }
     }
 
-
     console.log(currentWordArray);
     console.log(playerWordGuessArray);
 }
 
 function setUp(){
     
-
     if(playerGuessValue != 6){
         playerWinStreak = 0;
     }
 
-    update();
+    updateStreak();
 
     // Initialise values
     playerGuessValue = 0;
     randomWordSelector = getRandomInt(0, rightWords.length);
     currentWord = chooseWord(randomWordSelector);
+
+    currentLineValue = 0;
+    currentBoxValue = 0;
+    guessDiv = document.getElementById(`letter${currentLineValue}${currentBoxValue}`);
+    playerWordGuess = "";
 
     // Reset the page
     document.getElementById("guessContainerDiv").innerHTML = "";
@@ -248,16 +246,11 @@ function setUp(){
             letterDiv.style.alignItems = "center";
             letterDiv.style.justifyContent = "center";
             
-
-            
             const guessDiv = document.getElementById(`guessDiv${i}`);
             guessDiv.appendChild(letterDiv);
         }
     }
 }
-
-
-
 
 function chooseWord(randomWordSelector){
     let thisWord = rightWords[randomWordSelector];
