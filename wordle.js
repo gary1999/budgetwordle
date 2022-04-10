@@ -42,7 +42,7 @@ let playerWordGuess;
 let currentWordArray;
 let playerWordGuessArray;
 
-function displayLetter(letter){
+let displayLetter = (letter) => {
 
     guessDiv = document.getElementById(`letter${currentLineValue}${currentBoxValue}`);
 
@@ -51,7 +51,7 @@ function displayLetter(letter){
     }
 }
 
-function removeLetter(){
+let removeLetter = () =>{
     guessDiv = document.getElementById(`letter${currentLineValue}${currentBoxValue}`);
 
     if(currentBoxValue != 5){
@@ -152,16 +152,6 @@ function setUp(){
             letterDiv.setAttribute("id", `letter${letterString}`);
             letterDiv.setAttribute("class", "letter");
             
-            letterDiv.style.width = "75px";
-            letterDiv.style.height = "75px";
-            letterDiv.style.fontSize = "50px";
-            letterDiv.style.border = "thick solid black";
-            letterDiv.style.margin = "5px"
-            
-            letterDiv.style.display = "flex";
-            letterDiv.style.alignItems = "center";
-            letterDiv.style.justifyContent = "center";
-            
             const guessDiv = document.getElementById(`guessDiv${i}`);
             guessDiv.appendChild(letterDiv);
         }
@@ -261,4 +251,5 @@ function endGameCondition(){
         updateStreak();
     }
 }
+
 
