@@ -48,6 +48,9 @@ let removeLetter = () =>{
 let keyDown = (e) => {
     //Check if the player inputted a letter
     if(e.keyCode >= 65 && e.keyCode <= 90){
+
+        retryButton.disabled = false;
+
         if(currentBoxValue != 5){
             displayLetter(e.key);
             playerWordGuess = playerWordGuess + (e.key);
@@ -147,6 +150,8 @@ let endGameCondition = () => {
 
 function setUp(){
     
+    retryButton.disabled = true;
+
     window.addEventListener('keydown', keyDown);
     // Initialise values
     playerGuessValue = 0;
