@@ -1,3 +1,5 @@
+// import { Word } from "./word"
+
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -77,7 +79,7 @@ let keyDown = (e) => {
     }
 };
 
-function wordCheck(){
+let wordCheck = () => {
 
     for(i=0;i<5;i++){
 
@@ -98,16 +100,16 @@ function wordCheck(){
         }
     }
 
-    console.log(currentWordArray);
-    console.log(playerWordGuessArray);
+    // console.log(currentWordArray);
+    // console.log(playerWordGuessArray);
 }
 
-function chooseWord(randomWordSelector){
+let chooseWord = (randomWordSelector) => {
     let thisWord = rightWords[randomWordSelector];
     return(thisWord);
 }
 
-function validWord(){
+let validWord = () => {
     if(playerWordGuess.length == 5){
         if(/^[a-zA-Z]+$/.test(playerWordGuess)){
             playerWordGuess = playerWordGuess.toUpperCase();
@@ -128,7 +130,7 @@ function validWord(){
     endGameCondition();
 }
 
-function endGameCondition(){
+let endGameCondition = () => {
     while (playerGuessValue != 6){
         if(playerWordGuess === currentWord){
             playerGuessValue = 6;
