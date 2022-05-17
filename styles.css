@@ -1,11 +1,24 @@
+body {
+    display: flex;
+    flex-direction: column;
+}
 
+#Game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* button {
+    background-color: black;
+} */
 
 #guessContainerDiv{
-    /* display: flex;
-    flex-direction: row;
-    align-content: center;
-    justify-content: space-around; */
-    width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 #streakContainer{
@@ -32,3 +45,4 @@
     margin: 5px;
 
 }
+
